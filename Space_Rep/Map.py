@@ -6,19 +6,54 @@ class Map(object):
     def __init__(self, space_constant = 1):
         global root
         root = FixedNode(space_constant)
+        global flex_constant
+        flex_constant = space_constant
         global nodelist
         nodelist = []
         nodelist.append(root)
-    
+    def map_1D_space(start_coord, end_coord, resolution):
+        # maps a line of nodes from coordinate to coordinate
+        toReturn = []
+        dx = (end_coord.val()[0]-start_coord.val()[0])/resolution
+        dy = (end_coord.val()[1]-start_coord.val()[1])/resolution
+        dz = (end_coord.val()[2]-start_coord.val()[2])/resolution
+        step = 0
+        while(step*dx<=(end_coord.val()[0]-start_coord.val()[0] and
+                        step*dx<=(end_coord.val()[1]-start_coord.val()[1] and
+                        step*dx<=(end_coord.val()[2]-start_coord.val()[2]):
+            toReturn.append(LocatedNode(flex_constant,
+                                        Coordinate(start_coord.val()[0]+step*dx,
+                                                   start_coord.val()[1]+step*dy,
+                                                   start_coord.val()[2]+step*dz
+                                                   )
+                                        ))
+        return toReturn
+        
+        
+    def map_2D_space(start_x, start_y, end_x, end_y, resolution):
+        # maps a 2D grid of nodes from one coordinate to the other (opposite corners)
+        # TODO
+        pass
+    def map_3D_space(start_coord, end_coord, resolution):
+        # maps a 3D box of nodes from one coordinate to the other (opposite corners)
+        # TODO
+        pass
+
+            
     def add_node(self, toAdd):
         if isinstance(toAdd, Node):
             connect_list = toAdd.get_connections()
             # find any existing nodes that it connects to in order to update, then append to list
+            connected = False
             for item in connect_list:
                 global nodelist
                 for existing in nodelist:
                     if existing == item.node2:
                         existing.add_connection(item.distance,existing,toAdd)
+                        connected = True
+            if connected:
+                global nodelist
+                nodelist.append(toAdd)
       
     def map_network(self):
         reference_x = root.getX()
@@ -83,17 +118,13 @@ class Node(object):
             con_list.append(con_bottom)
          return con_list
 
-class FixedNode(Node):
+class LocatedNode(Node):
     # class that is fixed in space to orient other nodes.
-    def __init__(self, space_constant, x_coord = 0, y_coord = 0, z_coord = 0):
+    def __init__(self, space_constant, coord):
         super(Node, self).__init__(space_constant)
-        if isinstance(x, numbers.Number) and isinstance(y, numbers.Number) and isinstance(z, numbers.Number):
-            global x
-            x = x_coord
-            global y
-            y = y_coord
-            global z
-            z = z_coord
+        if isinstance(coord, Coordinate):
+            global coordinate
+            coordinate = coord
 
 class Connection(object):
     def __init__(self, length, Node1, Node2):
@@ -120,3 +151,14 @@ class Connection(object):
             node1 = Node1
             global node2
             node2 = Node2
+
+class Coordinate(object)
+    def __init__(self, x_coord, y_coord, z_coord):
+        global x
+        x = x_coord
+        global y
+        y = y_coord
+        global z
+        z = z_coord
+    def val(self):
+        return [x,y,z]
