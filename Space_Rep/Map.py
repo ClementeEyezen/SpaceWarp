@@ -1,5 +1,7 @@
 import numbers
 
+#quick changes for test
+
 class Map(object):
     def __init__(self, space_constant = 1):
         global root
