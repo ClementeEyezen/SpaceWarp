@@ -5,13 +5,18 @@ class Map(object):
         global root
         root = FixedNode(space_constant)
         global nodelist
+        nodelist = []
         nodelist.append(root)
     
     def add_node(self, toAdd):
         if isinstance(toAdd, Node):
+            connect_list = toAdd.get_connections()
             # find any existing nodes that it connects to in order to update, then append to list
-            #TODO
-            pass
+            for item in connect_list:
+                global nodelist
+                for existing in nodelist:
+                    if existing == item.node2:
+                        existing.add_connection(item.distance,existing,toAdd)
       
     def map_network(self):
         reference_x = root.getX()
@@ -37,23 +42,43 @@ class Node(object):
         con_top = Connection(1,self, None)
         global con_bottom
         con_bottom = Connection(1,self, None)
+    def set_connection(location, connection):
+        if isinstance(connection, Connection):
+            if location == 0:
+                con_front = connection
+            elif location == 1:
+                con_back = connection
+            elif location == 2:
+                con_left = connection
+            elif location == 3:
+                con_right = connection
+            elif location == 4:
+                con_top = connection
+            elif location == 5:
+                con_bottom = connection
 
     def set_connections(self, connection_list):
         if isinstance(connection_list, list):
             for index, connection in enumerate(connection_list):
                 if isinstance(connection, Connection):
-                    if index == 0:
-                        con_front = connection
-                    elif index == 1:
-                        con_back = connection
-                    elif index == 2:
-                        con_left = connection
-                    elif index == 3:
-                        con_right = connection
-                    elif index == 4:
-                        con_top = connection
-                    elif index == 5:
-                        con_bottom = connection
+                    if index >= 0 and index < 6:
+                        set_connection(index,connection)
+
+     def get_connections(self):
+        con_list = []
+        if isinstance(con_front,Node):
+            con_list.append(con_front)
+        if isinstance(con_back,Node):
+            con_list.append(con_back)
+        if isinstance(con_left,Node):
+            con_list.append(con_left)
+        if isinstance(con_right,Node):
+            con_list.append(con_right)
+        if isinstance(con_top,Node):
+            con_list.append(con_top)
+        if isinstance(con_bottom,Node):
+            con_list.append(con_bottom)
+         return con_list
 
 class FixedNode(Node):
     # class that is fixed in space to orient other nodes.

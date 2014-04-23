@@ -1,0 +1,13 @@
+[class ] Map
+    [method] __init__
+        [input ] Number space_constant
+            [default] 1
+        [action] make a root
+        [action] make a list of nodes
+    [method] add_node
+        [input ] Node toAdd
+        [condit] isinstance(toAdd, Node)
+            [action] make a list of connections
+            [loopx2]for each connection, for each existing node
+                [condit] there is a match
+                    [action] add a connection to the existing node
