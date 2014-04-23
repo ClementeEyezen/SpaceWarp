@@ -8,7 +8,7 @@ def main():
     carl = m.map_1D_space(c1,c2,5)
 
     for index, item in enumerate(carl):
-        print str(index)+' '+str(item.x)+' '+str(item.y)+' '+str(item.z)
+        print (''+str(index)+' '+str(item.x)+' '+str(item.y)+' '+str(item.z))
     
 if __name__ == '__main__':
     main()

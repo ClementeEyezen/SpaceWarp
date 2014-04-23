@@ -1,11 +1,9 @@
-import numbers
-
 #quick changes for test
 
 class Map(object):
     def __init__(self, space_constant = 1):
         global root
-        # root = LocatedNode(space_constant)
+        root = LocatedNode(space_constant, Coordinate(0,0,0))
         global flex_constant
         flex_constant = space_constant
         global nodelist
@@ -114,7 +112,8 @@ class Node(object):
 class LocatedNode(Node):
     # class that is fixed in space to orient other nodes.
     def __init__(self, space_constant, coord):
-        super(Node, self).__init__(space_constant)
+        upper = super(Node, self)
+        upper.__init__(space_constant)
         if isinstance(coord, Coordinate):
             global coordinate
             coordinate = coord
