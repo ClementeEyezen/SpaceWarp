@@ -1,5 +1,7 @@
 import numbers
 
+#quick changes for test
+
 class Map(object):
     def __init__(self, space_constant = 1):
         global root
@@ -42,6 +44,7 @@ class Node(object):
         con_top = Connection(1,self, None)
         global con_bottom
         con_bottom = Connection(1,self, None)
+    
     def set_connection(location, connection):
         if isinstance(connection, Connection):
             if location == 0:

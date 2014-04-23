@@ -1,3 +1,5 @@
+Map.py
+
 [class ] Map
     [method] __init__
         [input ] Number space_constant
@@ -6,8 +8,54 @@
         [action] make a list of nodes
     [method] add_node
         [input ] Node toAdd
-        [condit] isinstance(toAdd, Node)
-            [action] make a list of connections
-            [loopx2]for each connection, for each existing node
-                [condit] there is a match
-                    [action] add a connection to the existing node
+        [action] add a connection to referenced existing nodes
+        #TODO
+        [action] add node to the list
+    [method] map_network
+        [action] define a location for the root
+        [action] recursively define the location for connected
+        #TODO
+
+[class ] Node
+    [method] __init__
+        [input ] Number space_constant
+        [action] set flex constant (for determining energy)
+        [action] set the connecting nodes
+    [method] set_connection
+        [input ] Number location
+        [input ] Connection c
+        [action] set the identified connection to c
+    [method] set_connections
+        [input ] List[Connections] list
+        [action] for each item in the list, add it to the right connection location
+    [method] get_connections
+        [output] all connections (some of which might refer to a None end)
+
+[class ] Fixed Node [extend] Node
+    [method] __init__
+        [input ] Number space_constant
+        [input ] Number x_coord
+        [input ] Number y_coord
+        [input ] Number z_coord
+        [action] super __init__
+        [action] set the x,y,z coordinates for determining location
+
+[class ] Connection
+    [method] __init__
+        [input ] Number length
+        [input ] Node Node1
+        [input ] Node Node2
+        [action] assign the length and two connected nodes
+    [method] len
+        [output] distance between nodes
+    [method] connect_set
+        [output] the nodes that are connected
+    [method] set_len
+        [input ] Number length
+            [default] 1
+        [action] set the length
+    [method] reconnect
+        [input ] Node Node1
+        [input ] Node Node2
+        [action] set the two nodes
+    
