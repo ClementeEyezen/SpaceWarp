@@ -5,36 +5,29 @@ import numbers
 class Map(object):
     def __init__(self, space_constant = 1):
         global root
-        root = FixedNode(space_constant)
+        # root = LocatedNode(space_constant)
         global flex_constant
         flex_constant = space_constant
         global nodelist
         nodelist = []
         nodelist.append(root)
-    def map_1D_space(start_coord, end_coord, resolution):
+    def map_1D_space(self, start_coord, end_coord, resolution):
         # maps a line of nodes from coordinate to coordinate
         toReturn = []
         dx = (end_coord.val()[0]-start_coord.val()[0])/resolution
         dy = (end_coord.val()[1]-start_coord.val()[1])/resolution
         dz = (end_coord.val()[2]-start_coord.val()[2])/resolution
         step = 0
-        while(step*dx<=(end_coord.val()[0]-start_coord.val()[0] and
-                        step*dx<=(end_coord.val()[1]-start_coord.val()[1] and
-                        step*dx<=(end_coord.val()[2]-start_coord.val()[2]):
-            toReturn.append(LocatedNode(flex_constant,
-                                        Coordinate(start_coord.val()[0]+step*dx,
-                                                   start_coord.val()[1]+step*dy,
-                                                   start_coord.val()[2]+step*dz
-                                                   )
-                                        ))
+        while(step*dx<=(end_coord.val()[0]-start_coord.val()[0]) and step*dx<=(end_coord.val()[1]-start_coord.val()[1]) and step*dx<=(end_coord.val()[2]-start_coord.val()[2])):
+            toReturn.append(LocatedNode(flex_constant, Coordinate(start_coord.val()[0]+step*dx, start_coord.val()[1]+step*dy, start_coord.val()[2]+step*dz )))
         return toReturn
         
         
-    def map_2D_space(start_x, start_y, end_x, end_y, resolution):
+    def map_2D_space(self, start_x, start_y, end_x, end_y, resolution):
         # maps a 2D grid of nodes from one coordinate to the other (opposite corners)
         # TODO
         pass
-    def map_3D_space(start_coord, end_coord, resolution):
+    def map_3D_space(self, start_coord, end_coord, resolution):
         # maps a 3D box of nodes from one coordinate to the other (opposite corners)
         # TODO
         pass
@@ -64,9 +57,9 @@ class Map(object):
 
 
 class Node(object):
-    def __init__(self, space_constant):
+    def __init__(self, space_constant1):
         global flex_constant
-        flex_constant = space_constant
+        flex_constant = space_constant1
         global con_front
         con_front = Connection(1,self, None)
         global con_back
@@ -80,7 +73,7 @@ class Node(object):
         global con_bottom
         con_bottom = Connection(1,self, None)
     
-    def set_connection(location, connection):
+    def set_connection(self, location, connection):
         if isinstance(connection, Connection):
             if location == 0:
                 con_front = connection
@@ -100,9 +93,9 @@ class Node(object):
             for index, connection in enumerate(connection_list):
                 if isinstance(connection, Connection):
                     if index >= 0 and index < 6:
-                        set_connection(index,connection)
+                        Map.set_connection(index,connection)
 
-     def get_connections(self):
+    def get_connections(self):
         con_list = []
         if isinstance(con_front,Node):
             con_list.append(con_front)
@@ -116,7 +109,7 @@ class Node(object):
             con_list.append(con_top)
         if isinstance(con_bottom,Node):
             con_list.append(con_bottom)
-         return con_list
+        return con_list
 
 class LocatedNode(Node):
     # class that is fixed in space to orient other nodes.
@@ -152,7 +145,7 @@ class Connection(object):
             global node2
             node2 = Node2
 
-class Coordinate(object)
+class Coordinate(object):
     def __init__(self, x_coord, y_coord, z_coord):
         global x
         x = x_coord
