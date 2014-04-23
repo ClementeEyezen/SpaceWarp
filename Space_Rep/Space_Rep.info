@@ -31,7 +31,7 @@ Map.py
     [method] get_connections
         [output] all connections (some of which might refer to a None end)
 
-[class ] Fixed Node [extend] Node
+[class ] LocatedNode [extend] Node
     [method] __init__
         [input ] Number space_constant
         [input ] Number x_coord
@@ -58,4 +58,12 @@ Map.py
         [input ] Node Node1
         [input ] Node Node2
         [action] set the two nodes
-    
+
+[class ] Coordinate
+    [method] __init__
+        [input ] Number x_coord
+        [input ] Number y_coord
+        [input ] Number z_coord
+        [action] assign the coordinates
+    [method] val
+        [output] List[Number] in the form of [x,y,z]
