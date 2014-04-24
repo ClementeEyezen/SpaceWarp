@@ -29,7 +29,10 @@ class Map(object):
         # maps a 3D box of nodes from one coordinate to the other (opposite corners)
         # TODO
         pass
-
+    def verify(self):
+        # check to make sure all link distances are valid
+        # TODO
+        pass
             
     def add_node(self, toAdd):
         if isinstance(toAdd, Node):
