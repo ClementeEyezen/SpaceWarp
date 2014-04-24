@@ -2,13 +2,11 @@
 
 class Map(object):
     def __init__(self, space_constant = 1):
-        global root
-        root = LocatedNode(space_constant, Coordinate(0,0,0))
-        global flex_constant
-        flex_constant = space_constant
-        global nodelist
-        nodelist = []
-        nodelist.append(root)
+        self.root = LocatedNode(space_constant, Coordinate(0,0,0))
+        self.flex_constant = space_constant
+        self.nodelist = []
+        self.nodelist.append(self.root)
+
     def map_1D_space(self, start_coord, end_coord, resolution):
         # maps a line of nodes from coordinate to coordinate
         toReturn = []
@@ -16,8 +14,10 @@ class Map(object):
         dy = (end_coord.val()[1]-start_coord.val()[1])/resolution
         dz = (end_coord.val()[2]-start_coord.val()[2])/resolution
         step = 0
-        while(step*dx<=(end_coord.val()[0]-start_coord.val()[0]) and step*dx<=(end_coord.val()[1]-start_coord.val()[1]) and step*dx<=(end_coord.val()[2]-start_coord.val()[2])):
-            toReturn.append(LocatedNode(flex_constant, Coordinate(start_coord.val()[0]+step*dx, start_coord.val()[1]+step*dy, start_coord.val()[2]+step*dz )))
+        while(step <= resolution):
+            print("mapping "+str(step))
+            toReturn.append(LocatedNode(self.flex_constant, Coordinate(start_coord.val()[0]+step*dx, start_coord.val()[1]+step*dy, start_coord.val()[2]+step*dz )))
+            step = step + 1
         return toReturn
         
         
@@ -43,21 +43,20 @@ class Map(object):
                         existing.add_connection(item.distance,existing,toAdd)
                         connected = True
             if connected:
-                global nodelist
-                nodelist.append(toAdd)
+                self.nodelist
+                self.nodelist.append(toAdd)
       
     def map_network(self):
-        reference_x = root.getX()
-        reference_y = root.getY()
-        reference_z = root.getZ()
+        reference_x = self.root.getX()
+        reference_y = self.root.getY()
+        reference_z = self.root.getZ()
         # assign coordinates to every connected node from the root
         # TODO
 
 
 class Node(object):
     def __init__(self, space_constant1):
-        global flex_constant
-        flex_constant = space_constant1
+        self.flex_constant = space_constant1
         global con_front
         con_front = Connection(1,self, None)
         global con_back
@@ -113,10 +112,9 @@ class LocatedNode(Node):
     # class that is fixed in space to orient other nodes.
     def __init__(self, space_constant, coord):
         upper = super(Node, self)
-        upper.__init__(space_constant)
+        upper.__init__()
         if isinstance(coord, Coordinate):
-            global coordinate
-            coordinate = coord
+            self.coordinate = coord
 
 class Connection(object):
     def __init__(self, length, Node1, Node2):
@@ -135,8 +133,7 @@ class Connection(object):
     # set information
     def set_len(self, length = 1):
         if isinstance(distance, int):
-            global distance
-            distance = length
+            self.distance = length
     def reconnect(self,Node1, Node2):
         if isinstance(Node1, Node) and isinstance(Node2, Node):
             global node1
@@ -146,11 +143,8 @@ class Connection(object):
 
 class Coordinate(object):
     def __init__(self, x_coord, y_coord, z_coord):
-        global x
-        x = x_coord
-        global y
-        y = y_coord
-        global z
-        z = z_coord
+        self.x = x_coord
+        self.y = y_coord
+        self.z = z_coord
     def val(self):
-        return [x,y,z]
+        return [self.x,self.y,self.z]
